@@ -33,12 +33,14 @@
             this.handLabel = new System.Windows.Forms.Label();
             this.keepButton = new System.Windows.Forms.Button();
             this.scoreLabel = new System.Windows.Forms.Label();
+            this.dealerHandLabel = new System.Windows.Forms.Label();
+            this.dealerScoreLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // drawButton
             // 
             this.drawButton.Enabled = false;
-            this.drawButton.Location = new System.Drawing.Point(242, 72);
+            this.drawButton.Location = new System.Drawing.Point(12, 158);
             this.drawButton.Name = "drawButton";
             this.drawButton.Size = new System.Drawing.Size(157, 79);
             this.drawButton.TabIndex = 0;
@@ -67,12 +69,13 @@
             // keepButton
             // 
             this.keepButton.Enabled = false;
-            this.keepButton.Location = new System.Drawing.Point(242, 158);
+            this.keepButton.Location = new System.Drawing.Point(12, 243);
             this.keepButton.Name = "keepButton";
             this.keepButton.Size = new System.Drawing.Size(157, 23);
             this.keepButton.TabIndex = 3;
             this.keepButton.Text = "KEEP";
             this.keepButton.UseVisualStyleBackColor = true;
+            this.keepButton.Click += new System.EventHandler(this.keepButton_Click);
             // 
             // scoreLabel
             // 
@@ -84,11 +87,32 @@
             this.scoreLabel.TabIndex = 4;
             this.scoreLabel.Text = "0";
             // 
+            // dealerHandLabel
+            // 
+            this.dealerHandLabel.AutoSize = true;
+            this.dealerHandLabel.Location = new System.Drawing.Point(279, 87);
+            this.dealerHandLabel.Name = "dealerHandLabel";
+            this.dealerHandLabel.Size = new System.Drawing.Size(0, 13);
+            this.dealerHandLabel.TabIndex = 5;
+            // 
+            // dealerScoreLabel
+            // 
+            this.dealerScoreLabel.AutoSize = true;
+            this.dealerScoreLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dealerScoreLabel.Location = new System.Drawing.Point(569, 9);
+            this.dealerScoreLabel.Name = "dealerScoreLabel";
+            this.dealerScoreLabel.Size = new System.Drawing.Size(32, 33);
+            this.dealerScoreLabel.TabIndex = 6;
+            this.dealerScoreLabel.Text = "0";
+            this.dealerScoreLabel.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(660, 450);
+            this.Controls.Add(this.dealerScoreLabel);
+            this.Controls.Add(this.dealerHandLabel);
             this.Controls.Add(this.scoreLabel);
             this.Controls.Add(this.keepButton);
             this.Controls.Add(this.handLabel);
@@ -109,6 +133,8 @@
         private System.Windows.Forms.Label handLabel;
         private System.Windows.Forms.Button keepButton;
         private System.Windows.Forms.Label scoreLabel;
+        private System.Windows.Forms.Label dealerHandLabel;
+        private System.Windows.Forms.Label dealerScoreLabel;
     }
 }
 

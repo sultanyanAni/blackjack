@@ -31,6 +31,7 @@
             this.OneButton = new System.Windows.Forms.Button();
             this.ElevenButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.scoreLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // OneButton
@@ -65,16 +66,27 @@
             this.label1.Text = "You drew an Ace. \r\nWhat do you want to treat it as?";
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
+            // scoreLabel
+            // 
+            this.scoreLabel.AutoSize = true;
+            this.scoreLabel.Location = new System.Drawing.Point(48, 35);
+            this.scoreLabel.Name = "scoreLabel";
+            this.scoreLabel.Size = new System.Drawing.Size(113, 13);
+            this.scoreLabel.TabIndex = 3;
+            this.scoreLabel.Text = "Your current score is:  ";
+            // 
             // AceDialogue
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(235, 94);
+            this.Controls.Add(this.scoreLabel);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.ElevenButton);
             this.Controls.Add(this.OneButton);
             this.Name = "AceDialogue";
             this.Text = "AceDialogue";
+            this.Load += new System.EventHandler(this.AceDialogue_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -85,5 +97,6 @@
         private System.Windows.Forms.Button OneButton;
         private System.Windows.Forms.Button ElevenButton;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label scoreLabel;
     }
 }

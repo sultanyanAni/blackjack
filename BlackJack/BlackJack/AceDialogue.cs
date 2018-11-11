@@ -12,9 +12,11 @@ namespace BlackJack
 {
     public partial class AceDialogue : Form
     {
+        int Score;
         public int ChosenValue { get; set; }
-        public AceDialogue()
+        public AceDialogue(int score)
         {
+            Score = score;
             InitializeComponent();
         }
 
@@ -26,6 +28,18 @@ namespace BlackJack
         private void ElevenButton_Click(object sender, EventArgs e)
         {
             ChosenValue = 11;
+        }
+
+        private void AceDialogue_Load(object sender, EventArgs e)
+        {
+            if (Score > 0)
+            {
+                scoreLabel.Text += Score.ToString();
+            }
+            else
+            {
+                scoreLabel.Visible = false; 
+            }
         }
     }
 }
