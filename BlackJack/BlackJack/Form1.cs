@@ -123,6 +123,7 @@ namespace BlackJack
                     dealerScore += (int)DealerHand[i].Value;
                 }
             }
+          
             dealerHandLabel.Text += DealerHand[0] + "\n";
             //if the dealer has 21, they win before the player's hand is checked
             if (dealerScore == 21)
