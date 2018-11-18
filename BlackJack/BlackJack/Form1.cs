@@ -17,13 +17,17 @@ namespace BlackJack
         int playerScore;
         Deck deck = new Deck();
         List<Card> PlayerHand = new List<Card>();
+        List<PictureBox> PlayerPics = new List<PictureBox>();
         List<Card> DealerHand = new List<Card>();
+        List<PictureBox> DealerPics = new List<PictureBox>();
+  
         public Form1()
         {
             InitializeComponent();
         }
         void resetGame()
         {
+            dealt21 = false;
             drawButton.Enabled = false;
             keepButton.Enabled = false;
             dealButton.Enabled = true;
@@ -35,7 +39,11 @@ namespace BlackJack
             dealerScore = 0;
             PlayerHand.Clear();
             DealerHand.Clear();
-
+            for (int i = 0; i < PlayerPics.Count; i++)
+            {
+                PlayerPics[i].Image = Properties.Resources.empty_space;
+                DealerPics[i].Image = Properties.Resources.empty_space;
+            }
             deck.ReloadDeck();
             deck.Shuffle(5);
         }
@@ -91,17 +99,83 @@ namespace BlackJack
         }
         private void Form1_Load(object sender, EventArgs e)
         {
-
-        }
-        void PrintHand(List<Card> hand, Label label)
-        {
-            label.Text = "";
-            for (int i = 0; i < hand.Count; i++)
+            foreach(Control pb in Controls)
             {
-                label.Text += hand[i].ToString() + "\n";
+                if (pb is PictureBox)
+                {
+                    PictureBox box = (PictureBox)pb;
+                    int tag = Convert.ToInt32(pb.Tag);
+                    if (tag < 0)
+                    {
+                        DealerPics.Add(box);
+                    }
+                    else
+                    {
+                        PlayerPics.Add(box);
+                    }
+                }
+            }
+            bool swapped = false;
+            for (int i = 0; i < DealerPics.Count; i++)
+            {
+                swapped = false;
+                for (int j = 1; j < DealerPics.Count; j++)
+                {
+                    int tag1 = Convert.ToInt32(DealerPics[j].Tag);
+                    int tag2 = Convert.ToInt32(DealerPics[j - 1].Tag);
+                    if (tag1 < tag2)
+                    {
+                        PictureBox temp = DealerPics[j];
+                        DealerPics[j] = DealerPics[j - 1];
+                        DealerPics[j - 1] = temp;
+                        swapped = true;
+                    }
+                }
+
+                if(swapped == false)
+                {
+                    break;
+                }
+            }
+            for (int i = 0; i < PlayerPics.Count; i++)
+            {
+                swapped = false;
+                for (int j = 1; j < PlayerPics.Count; j++)
+                {
+                    int tag1 = Convert.ToInt32(PlayerPics[j].Tag);
+                    int tag2 = Convert.ToInt32(PlayerPics[j - 1].Tag);
+                    if (tag1 < tag2)
+                    {
+                        PictureBox temp = PlayerPics[j];
+                        PlayerPics[j] = PlayerPics[j - 1];
+                        PlayerPics[j - 1] = temp;
+                        swapped = true;
+                    }
+                }
+
+                if (swapped == false)
+                {
+                    break;
+                }
             }
 
         }
+        void PrintHand(List<Card> hand, List<PictureBox> pictureBoxes, bool firstDeal = false)
+        {
+            if (!firstDeal)
+            {
+                for (int i = 0; i < hand.Count; i++)
+                {
+                    pictureBoxes[i].Image = deck.deckImages[hand[i]];
+                }
+            }
+            else
+            {
+                pictureBoxes[0].Image = deck.deckImages[hand[0]];
+                pictureBoxes[1].Image = Properties.Resources.Card_Back;
+            }
+        }
+
         private void dealButton_Click(object sender, EventArgs e)
         {
             deck.Shuffle(4);
@@ -123,13 +197,13 @@ namespace BlackJack
                     dealerScore += (int)DealerHand[i].Value;
                 }
             }
-          
-            dealerHandLabel.Text += DealerHand[0] + "\n";
+
+            PrintHand(DealerHand, DealerPics, true);
             //if the dealer has 21, they win before the player's hand is checked
             if (dealerScore == 21)
             {
                 dealt21 = true;
-                PrintHand(DealerHand, dealerHandLabel);
+                PrintHand(DealerHand, DealerPics);
                 DialogResult dialogResult = MessageBox.Show("The dealer scored 21! Would you like to play again?", "Loss", MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
@@ -164,7 +238,7 @@ namespace BlackJack
                     }
 
                 }
-                PrintHand(PlayerHand, handLabel);
+                PrintHand(PlayerHand, PlayerPics);
                 scoreLabel.Text = playerScore.ToString();
                 dealButton.Enabled = false;
                 drawButton.Enabled = true;
@@ -196,7 +270,7 @@ namespace BlackJack
 
             PlayerHand.Add(cardDrawn);
             scoreLabel.Text = playerScore.ToString();
-            PrintHand(PlayerHand, handLabel);
+            PrintHand(PlayerHand, PlayerPics);
             checkScore();
         }
 
@@ -222,7 +296,7 @@ namespace BlackJack
             }
             dealerScoreLabel.Visible = true;
             dealerScoreLabel.Text = dealerScore.ToString();
-            PrintHand(DealerHand, dealerHandLabel);
+            PrintHand(DealerHand, DealerPics);
             checkScore();
             if (playerScore > dealerScore)
             {
